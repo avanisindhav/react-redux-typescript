@@ -213,3 +213,37 @@ export class App extends React.Component {
 }
 
 ```
+
+## 7. Action Creators with Typescript
+
+- add actions->index.ts folder->file in src
+- using this api endpoint https://jsonplaceholder.typicode.com/todos we will create async action in that
+- start most difficult part to work with react/ redux with typescript
+- as we dont know what is the type of dispatch is so import redux and go to type definition part and get type of dispatch and then import that type and use that
+- code inside index.ts in actions folder
+
+```
+import axios from "axios";
+import { Dispatch } from "redux";
+
+const url = `https://jsonplaceholder.typicode.com/todos`;
+
+export const fetchToDos = () => {
+  return async (dispatch: Dispatch) => {
+    const response = await axios.get(url);
+
+    dispatch({
+      type: "FETCH_TODOS",
+      payload: response.data,
+    });
+  };
+};
+
+```
+
+Problem we have Using above code
+
+1. beside 1 single annotation(Dispatch) we have no type safety
+2. we have no idea which kind of data axios request returns
+3. FETCH_TODOS is hardcorded
+4. dispatch is generic so we can use in better way by providing more info which kind of args it should allow
