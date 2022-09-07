@@ -1,45 +1,45 @@
-1. npx create-react-app rrts --template typescript
+## 1. npx create-react-app rrts --template typescript
 
-2. delete all file inside src folder
-   add below code in index.tsx file and npm start
+## 2. delete all file inside src folder
 
-   ```
-   import React from "react";
-   import ReactDOM from "react-dom";
+add below code in index.tsx file and npm start
 
-   class App extends React.Component {
-       render() {
-           return <div>Hi there</div>;
-       }
-   }
-   ReactDOM.render(<App />,document.querySelector("#root"));
+```
+import React from "react";
+import ReactDOM from "react-dom";
 
-   ```
+class App extends React.Component {
+    render() {
+        return <div>Hi there</div>;
+    }
+}
+ReactDOM.render(<App />,document.querySelector("#root"));
 
-3. Interfaces with Props
+```
 
-   while try to add props in App components in ReactDom.render named color its props some error in the screen as React.Component is generic class and if we want to pass any props we need to create interface explaning/defining all the props and types class going to receive and all them in the class declaration time that way we can work with the props
+## 3. Interfaces with Props
 
-   ```
-   interface AppProps {
-    color : string
-   }
+while try to add props in App components in ReactDom.render named color its props some error in the screen as React.Component is generic class and if we want to pass any props we need to create interface explaning/defining all the props and types class going to receive and all them in the class declaration time that way we can work with the props
 
-   class App extends React.Component<AppProps> {
+```
+interface AppProps {
+ color : string
+}
 
-   }
+class App extends React.Component<AppProps> {
 
-   <App color="red" />
+}
 
-   ```
+<App color="red" />
 
-4. Handling Component State and Confusing Component State
+```
 
+## 4. Handling Component State and Confusing Component State
+
+<br>
 Lets try to understand state using counter app
 
 in index.tsx
-
-        ```
 
         import React from "react";
         import ReactDOM from "react-dom";
@@ -84,12 +84,10 @@ in index.tsx
 
         ReactDOM.render(<App color="skyblue" />, document.querySelector("#root"));
 
-        ```
-
 this works well and perfect but if we uses same with the constructor function it start props error
 
 ```
-    TS2339: Property 'counter' does not exist on type 'Readonly<{}>
+TS2339: Property 'counter' does not exist on type 'Readonly<{}>
 ```
 
 is because when we use first appox due to we extending component its override the state but it this appoch we need to pass typed state in components generics
@@ -150,6 +148,8 @@ ReactDOM.render(<App color="skyblue" />, document.querySelector("#root"));
 
 ### choose either one of the appox
 
+<br>
+
 ## 5. Function components
 
 ```
@@ -159,3 +159,57 @@ const App = (props: AppProps): JSX.Element => {
 ```
 
 [link](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/default_props/) found during some search for cheetsheet how to work with typescript with react
+
+## 6. Redux SetUp
+
+npm install redux react-redux redux-thunk axios
+
+remove code from the index.tsx
+
+replace below code in index.tsx
+
+```
+import ReactDOM from "react-dom";
+import {
+  createStore /* will continyue as we have to use redux only*/,
+  applyMiddleware,
+} from "redux";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+import { reducers } from "./reducers";
+import { App } from "./components/App";
+
+/* will continue as we have to use redux only we can use redux toolkit to eliminate error */
+const store = createStore(reducers, applyMiddleware(thunk));
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.querySelector("#root")
+);
+```
+
+add reducers folder in src and index.ts file in reducers folder with below code
+
+```
+import { combineReducers } from "redux";
+
+export const reducers = combineReducers({
+  counter: () => 1,
+});
+
+```
+
+add componets folder in src and add App.tsx file in components folder with below code
+
+```
+import React from "react";
+
+export class App extends React.Component {
+  render() {
+    return <div>Hi there !!!</div>;
+  }
+}
+
+```
