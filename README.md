@@ -1,46 +1,151 @@
-# Getting Started with Create React App
+1. npx create-react-app rrts --template typescript
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+2. delete all file inside src folder
+   add below code in index.tsx file and npm start
 
-## Available Scripts
+   ```
+   import React from "react";
+   import ReactDOM from "react-dom";
 
-In the project directory, you can run:
+   class App extends React.Component {
+       render() {
+           return <div>Hi there</div>;
+       }
+   }
+   ReactDOM.render(<App />,document.querySelector("#root"));
 
-### `npm start`
+   ```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+3. Interfaces with Props
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+   while try to add props in App components in ReactDom.render named color its props some error in the screen as React.Component is generic class and if we want to pass any props we need to create interface explaning/defining all the props and types class going to receive and all them in the class declaration time that way we can work with the props
 
-### `npm test`
+   ```
+   interface AppProps {
+    color : string
+   }
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   class App extends React.Component<AppProps> {
 
-### `npm run build`
+   }
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   <App color="red" />
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. Handling Component State and Confusing Component State
 
-### `npm run eject`
+Lets try to understand state using counter app
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+in index.tsx
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+        ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+        import React from "react";
+        import ReactDOM from "react-dom";
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+        interface AppProps {
+            color: string;
+        }
 
-## Learn More
+        class App extends React.Component<AppProps> {
+            state = { counter: 0 };
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+            onIncrement = () => {
+                this.setState({ counter: this.state.counter + 1 });
+            };
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+            onDecrement = () => {
+                this.setState({ counter: this.state.counter - 1 });
+            };
+
+            render() {
+                return (
+                <div>
+                    <button
+                        style={{ margin: 5, borderRadius: 10 }}
+                        onClick={this.onIncrement}
+                        >
+                        Increment
+                    </button>
+                    <button
+                        style={{ margin: 5, borderRadius: 10 }}
+                        onClick={this.onDecrement}
+                        >
+                        Decrement
+                    </button>
+                    <div style={{ margin: 5, borderRadius: 10 }}>
+                        Counter is: {this.state.counter}
+                    </div>
+                </div>
+                );
+            }
+        }
+
+        ReactDOM.render(<App color="skyblue" />, document.querySelector("#root"));
+
+        ```
+
+this works well and perfect but if we uses same with the constructor function it start props error
+
+```
+    TS2339: Property 'counter' does not exist on type 'Readonly<{}>
+```
+
+is because when we use first appox due to we extending component its override the state but it this appoch we need to pass typed state in components generics
+
+like this
+
+```
+import React from "react";
+import ReactDOM from "react-dom";
+
+interface AppProps {
+  color: string;
+}
+
+interface AppState {
+  counter: number;
+}
+
+class App extends React.Component<AppProps, AppState> {
+  constructor(props: AppProps) {
+    super(props);
+    this.state = { counter: 0 };
+  }
+
+  onIncrement = () => {
+    this.setState({ counter: this.state.counter + 1 });
+  };
+
+  onDecrement = () => {
+    this.setState({ counter: this.state.counter - 1 });
+  };
+
+  render() {
+    return (
+      <div>
+        <button
+          style={{ margin: 5, borderRadius: 10 }}
+          onClick={this.onIncrement}
+        >
+          Increment
+        </button>
+        <button
+          style={{ margin: 5, borderRadius: 10 }}
+          onClick={this.onDecrement}
+        >
+          Decrement
+        </button>
+        <div style={{ margin: 5, borderRadius: 10 }}>
+          Counter is: {this.state.counter}
+        </div>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<App color="skyblue" />, document.querySelector("#root"));
+```
+
+### choose either one of the appox
