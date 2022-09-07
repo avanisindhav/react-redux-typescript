@@ -247,3 +247,35 @@ Problem we have Using above code
 2. we have no idea which kind of data axios request returns
 3. FETCH_TODOS is hardcorded
 4. dispatch is generic so we can use in better way by providing more info which kind of args it should allow
+
+## 8. Add type for response from axios and the remove hardcorded actionTypes
+
+- add file named actionTypes.ts in actions folder add below code
+
+```
+export enum actionTypes {
+  fetchTodos,
+}
+```
+
+- in index.ts file in actions folder add below code
+
+interface named Todo
+
+```
+interface Todo {
+  id: number;
+  title: string;
+  completed: boolean;
+}
+```
+
+inside return dispatch function added Todo[] type that will help us to identify return data from axios and payload data type and import actionTypes and use that in type in dispatch
+
+```
+const response = await axios.get<Todo[]>(url);
+dispatch({
+  type: actionTypes.fetchTodos,
+  payload: response.data,
+});
+```
