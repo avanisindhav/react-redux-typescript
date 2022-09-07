@@ -149,3 +149,13 @@ ReactDOM.render(<App color="skyblue" />, document.querySelector("#root"));
 ```
 
 ### choose either one of the appox
+
+## 5. Function components
+
+```
+const App = (props: AppProps): JSX.Element => {
+  return <div>{`color is ${props.color}`}</div>;
+};
+```
+
+[link](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/default_props/) found during some search for cheetsheet how to work with typescript with react
