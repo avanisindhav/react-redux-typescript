@@ -401,4 +401,22 @@ return (
 );
 ```
 
-## 14.
+## 14. Adding a Delete Functionality in this add action first
+
+- in actions->actionType.ts add deleteTodo type
+- in index.js add below code
+
+```
+export interface deleteTodoAction {
+  type: ActionTypes.deleteTodo;
+  payload: number;
+}
+
+export const deleteTodo = (id: number): deleteTodoAction => {
+  return {
+    type: ActionTypes.deleteTodo,
+    payload: id,
+  };
+};
+
+```
