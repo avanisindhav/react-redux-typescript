@@ -9,9 +9,35 @@ interface AppProps {
   deleteTodo: typeof deleteTodo;
 }
 
-class App1 extends React.Component<AppProps> {
+interface AppState {
+  loading: boolean;
+}
+
+class App1 extends React.Component<AppProps, AppState> {
+  constructor(props: AppProps) {
+    super(props);
+
+    this.state = {
+      loading: false,
+    };
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<AppProps>,
+    prevState: Readonly<AppState>,
+    snapshot?: any
+  ): void {
+    if (
+      (!prevProps.todos.length && this.props.todos.length) ||
+      prevState.loading
+    ) {
+      this.setState({ loading: false });
+    }
+  }
+
   handleOnButtonClick = (): void => {
     this.props.fetchToDos();
+    this.setState({ loading: true });
   };
 
   onTodoClick = (id: number): void => {
@@ -40,7 +66,11 @@ class App1 extends React.Component<AppProps> {
           Fetch Data
         </button>
 
-        {this.renderList()}
+        {this.state.loading ? (
+          <div style={{ fontSize: 50, margin: 30 }}>Loading.....</div>
+        ) : (
+          this.renderList()
+        )}
       </div>
     );
   }
