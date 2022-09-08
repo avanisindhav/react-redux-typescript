@@ -248,12 +248,12 @@ Problem we have Using above code
 3. FETCH_TODOS is hardcorded
 4. dispatch is generic so we can use in better way by providing more info which kind of args it should allow
 
-## 8. Add type for response from axios and the remove hardcorded actionTypes
+## 8. Add type for response from axios and the remove hardcorded ActionTypes
 
-- add file named actionTypes.ts in actions folder add below code
+- add file named ActionTypes.ts in actions folder add below code
 
 ```
-export enum actionTypes {
+export enum ActionTypes {
   fetchTodos,
 }
 ```
@@ -270,12 +270,29 @@ interface Todo {
 }
 ```
 
-inside return dispatch function added Todo[] type that will help us to identify return data from axios and payload data type and import actionTypes and use that in type in dispatch
+inside return dispatch function added Todo[] type that will help us to identify return data from axios and payload data type and import ActionTypes and use that in type in dispatch
 
 ```
 const response = await axios.get<Todo[]>(url);
 dispatch({
-  type: actionTypes.fetchTodos,
+  type: ActionTypes.fetchTodos,
   payload: response.data,
 });
 ```
+
+## 9. The Generic Dispatch Function
+
+in index.ts in actions added
+
+```
+interface FetchTodosAction {
+  type: ActionTypes.fetchTodos;
+  payload: Todo[];
+}
+dispatch<FetchTodosAction>({
+  type: ActionTypes.fetchTodos,
+  payload: response.data,
+});
+```
+
+## 10.

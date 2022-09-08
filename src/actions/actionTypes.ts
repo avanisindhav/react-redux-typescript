@@ -1,3 +1,3 @@
-export enum actionTypes {
+export enum ActionTypes {
   fetchTodos,
 }
