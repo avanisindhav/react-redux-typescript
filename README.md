@@ -528,3 +528,7 @@ TS2345: Argument of type 'typeof App1' is not assignable to parameter of type 'C
     Types of parameters 'props' and 'props' are incompatible.
       Type 'Matching<{ todos: Todo[]; } & { fetchToDos: () => Promise<void>; deleteTodo: (id: number) => deleteTodoAction; }, ClassAttributes<App1> & AppProps>' is not assignable to type 'AppProps | Readonly<AppProps>'.
 ```
+
+## 19. Again type definition file
+
+- type definition of connect function expect second argument is object but due to we use thunk fetchTodos its return Promise<void> so to avoid this in AppProps we declare type of fetchTodos to Function to foll TypeScript

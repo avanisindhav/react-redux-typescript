@@ -5,7 +5,7 @@ import { StoreState } from "../reducers";
 
 interface AppProps {
   todos: Todo[];
-  fetchToDos: typeof fetchToDos;
+  fetchToDos: Function;
   deleteTodo: typeof deleteTodo;
 }
 
@@ -21,8 +21,13 @@ class App1 extends React.Component<AppProps> {
   renderList(): JSX.Element[] {
     return this.props.todos.map((todo: Todo) => {
       return (
-        <div onClick={() => this.onTodoClick(todo.id)} key={todo.id}>
-          {todo.title}
+        <div
+          // datatooltip="Delete"
+          style={{ margin: 7, padding: 3, border: "0.5px solid #f0e1e3" }}
+          onClick={() => this.onTodoClick(todo.id)}
+          key={todo.id}
+        >
+          {todo.id} :- {todo.title} - {todo.completed ? "✔️" : "🚩"}
         </div>
       );
     });
@@ -31,7 +36,10 @@ class App1 extends React.Component<AppProps> {
   render() {
     return (
       <div>
-        <button onClick={this.handleOnButtonClick}>Fetch Data</button>
+        <button style={{ marginBottom: 20 }} onClick={this.handleOnButtonClick}>
+          Fetch Data
+        </button>
+
         {this.renderList()}
       </div>
     );
