@@ -420,3 +420,17 @@ export const deleteTodo = (id: number): deleteTodoAction => {
 };
 
 ```
+
+## 15. Breaking Out Action Creators
+
+- just added the file named todos.ts in actions add cut code from index.ts to that file
+- in index.ts just export all the files of actions folder like below
+
+```
+export * from "./todos";
+export * from "./actionTypes";
+```
+
+and adjust imports
+
+## 16.
