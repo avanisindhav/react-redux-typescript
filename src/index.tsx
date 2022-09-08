@@ -1,4 +1,5 @@
-import ReactDOM from "react-dom";
+// import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import {
   createStore /* will continyue as we have to use redux only*/,
   applyMiddleware,
@@ -11,9 +12,10 @@ import { App } from "./components/App";
 /* will continue as we have to use redux only we can use redux toolkit to eliminate error */
 const store = createStore(reducers, applyMiddleware(thunk));
 
-ReactDOM.render(
+const root = createRoot(document.getElementById("root")!);
+
+root.render(
   <Provider store={store}>
     <App />
-  </Provider>,
-  document.querySelector("#root")
+  </Provider>
 );

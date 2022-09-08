@@ -316,4 +316,18 @@ export const todosReducer = (state: Todo[] = [], actions: FetchTodosAction) => {
 
 ```
 
-## 11.
+## 11. Validating Store Structure
+
+- in reducers index.ts file
+- add StoreState interface and combineReducers generic tye
+
+```
+export interface StoreState {
+  todos: Todo[];
+}
+
+export const reducers = combineReducers<StoreState>({
+  todos: todosReducer,
+});
+
+```
