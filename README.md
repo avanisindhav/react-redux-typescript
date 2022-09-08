@@ -445,4 +445,86 @@ export type todoActions = FetchTodosAction | deleteTodoAction;
 
 - in reducers folder in import the action union type and add as action type and now we handle delete action
 
-## 17.
+## 17. DeleteTodo type handle in reducer
+
+-in reducers todos.ts reducer added below code to handle delete action
+
+```
+case ActionTypes.deleteTodo:
+  return state.filter((todo) => todo.id !== actions.payload);
+```
+
+## 18. Wiring up deleteToDo Action
+
+1. Add the deleteTodo action creator to the import: in App.tsx
+
+```
+import { Todo, fetchTodos, deleteTodo } from '../actions';
+```
+
+2. Add the deleteTodo property and type and change the fetchTodos type in our interface:
+
+```
+interface AppProps {
+  todos: Todo[];
+  fetchTodos: typeof fetchTodos;
+  deleteTodo: typeof deleteTodo;
+}
+```
+
+3. Create the onTodoClick method directly after the onButtonClick method.
+
+```
+onTodoClick = (id: number): void => {
+  this.props.deleteTodo(id);
+};
+```
+
+4. Refactor the return in our renderList method to include the onClick handler:
+
+From this:
+
+```
+renderList(): JSX.Element[] {
+  return this.props.todos.map((todo: Todo) => {
+    return <div key={todo.id}>{todo.title}</div>;
+  });
+}
+```
+
+To This:
+
+```
+renderList(): JSX.Element[] {
+  return this.props.todos.map((todo: Todo) => {
+    return (
+        <div onClick={() => this.onTodoClick(todo.id)} key={todo.id}>
+          {todo.title}
+        </div>
+    );
+  });
+}
+```
+
+5. Finally, add the deleteTodo action creator to the connect function's mapDispatchToProps argument:
+
+```
+export const App = connect(
+  mapStateToProps,
+  { fetchTodos, deleteTodo }
+)(_App);
+
+```
+
+Finally At point we are seeing some error like
+
+This will get us caught up to where we need to be for the next lecture Again, Type Definition Files. In that lecture, we will discuss why we are getting the error and how to fix it.
+
+```
+ERROR in src/components/App.tsx:48:4
+
+TS2345: Argument of type 'typeof App1' is not assignable to parameter of type 'ComponentType<Matching<{ todos: Todo[]; } & { fetchToDos: () => Promise<void>; deleteTodo: (id: number) => deleteTodoAction; }, ClassAttributes<App1> & AppProps>>'.
+  Type 'typeof App1' is not assignable to type 'ComponentClass<Matching<{ todos: Todo[]; } & { fetchToDos: () => Promise<void>; deleteTodo: (id: number) => deleteTodoAction; }, ClassAttributes<App1> & AppProps>, any>'.
+    Types of parameters 'props' and 'props' are incompatible.
+      Type 'Matching<{ todos: Todo[]; } & { fetchToDos: () => Promise<void>; deleteTodo: (id: number) => deleteTodoAction; }, ClassAttributes<App1> & AppProps>' is not assignable to type 'AppProps | Readonly<AppProps>'.
+```
