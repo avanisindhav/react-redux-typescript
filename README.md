@@ -433,4 +433,16 @@ export * from "./actionTypes";
 
 and adjust imports
 
-## 16.
+## 16. Expressing Actions as Type Union
+
+- in actions folder actionnTypes added below code
+
+```
+import { FetchTodosAction, deleteTodoAction } from "./todos";
+
+export type todoActions = FetchTodosAction | deleteTodoAction;
+```
+
+- in reducers folder in import the action union type and add as action type and now we handle delete action
+
+## 17.
