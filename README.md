@@ -365,4 +365,40 @@ export const App = connect(mapStateToProps, {
 
 ```
 
-## 13.
+## 13. Rendering a List
+
+- define lifecycle method
+- to fetch todos
+- added below code in App.tsx file
+
+- above render
+
+```
+handleOnButtonClick = (): void => {
+  this.props.fetchToDos();
+};
+
+renderList(): JSX.Element[] {
+  return this.props.todos.map((todo: Todo) => {
+    return (
+      <div key={todo.id}>
+        {todo.id} - {todo.title} -
+        {todo.completed ? "Completed" : "Not Completed"}
+      </div>
+    );
+  });
+}
+```
+
+inside render
+
+```
+return (
+  <div>
+    <button onClick={this.handleOnButtonClick}>Fetch Data</button>
+    {this.renderList()}
+  </div>
+);
+```
+
+## 14.
